@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1'
+gem 'rails', github: 'rails/rails', ref: '2ab9e968c7917d3d8a6e9ee31fa06f83a2dc0760'
 # Use sqlite3
 gem 'sqlite3', group: [:development, :test]
 gem 'pg', group: :production
