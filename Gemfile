@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2'
+gem 'rails', github: 'rmacklin/rails', ref: 'c96139af71e6f7c36e25bccea6b05ccd9523531a'
 # Use sqlite3
 gem 'sqlite3', group: [:development, :test]
 gem 'pg', group: :production
@@ -28,7 +28,7 @@ gem 'rack-cors'
 # Other
 gem 'nenv'
 
-gem 'anycable-rails', "~> 0.5.0", require: false
+gem 'anycable-rails', "~> 0.5.5", require: false
 
 gem 'tzinfo'
 gem 'tzinfo-data'
