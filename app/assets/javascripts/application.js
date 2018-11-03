@@ -17,6 +17,7 @@
 //= require_tree ./shared
 //= require_tree ./channels
 //= require_tree ./templates
+//= require ./create-worker
 
 $(document).ready(function() {
   $('select').material_select();

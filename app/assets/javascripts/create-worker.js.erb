@@ -1,0 +1,9 @@
+window.appWorker = new Worker('<%= asset_path('worker.js') %>');
+
+appWorker.onmessage = function(e) {
+  console.log(e.data);
+  console.log('Main (appWorker.onmessage): Message received from worker');
+};
+
+// In the console, interact with the worker like:
+// window.appWorker.postMessage([3,4])
