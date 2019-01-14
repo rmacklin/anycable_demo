@@ -1,8 +1,10 @@
 #= require ./base
 
-window.ProductsChannel = Object.assign({
+self.ProductsChannel = Object.assign({
   handle_connected: ->
-    @perform 'follow', id: gon.basket_id
+    @perform 'follow', id: this.basket_id
+  handle_message: (type, data) ->
+    postMessage(['ProductsChannel.handle_message', type, data])
   name: -> 'ProductsChannel'
 }, BaseChannel)
 

@@ -1,6 +1,9 @@
-window.BaseChannel = {
+after = (time, fn) ->
+  setTimeout(fn, time)
+
+self.BaseChannel = {
   log: (msg) ->
-    App.utils.successMessage("[ActionCable##{@name()}] #{msg}")
+    postMessage(['successMessage', "[ActionCable##{@name()}] #{msg}"])
 
   connected: ->
     @log 'Connected'

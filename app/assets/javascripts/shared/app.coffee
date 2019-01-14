@@ -3,18 +3,10 @@ App = window.App = {}
 connected = true
 
 App.connect = ->
-  return if connected
-  App.cable.connection.monitor.reconnectAttempts = 2 
-  App.cable.connection.monitor.start()
-  connected = true
+  window.appWorker.postMessage(['connect'])
 
 App.disconnect = ->
-  return unless connected
-  App.cable.connection.monitor.stop()
-  # to make sure that it won't try to reconnect
-  App.cable.connection.monitor.reconnectAttempts = 2 
-  App.cable.connection.close()
-  connected = false
+  window.appWorker.postMessage(['disconnect'])
 
 App.utils = 
   successMessage: (message) ->
@@ -57,19 +49,23 @@ $ ->
       App.disconnect()
 
 
-  App.cable = ActionCable.createConsumer()
+  appWorker.postMessage([
+    'createConsumer',
+    createWebSocketURL(
+      document.head.querySelector("meta[name='action-cable-url']").getAttribute("content")
+    )
+  ])
 
   return unless gon.user_id
 
-  notifications = new Notifications()
-  notifications.on()
+  appWorker.postMessage(['enableNotifications', gon.user_id])
 
   notificationsBtn = $('.notifications-btn')
 
   notificationsBtn.on 'click', (e) ->
     if notificationsBtn.hasClass('is-disabled')
-      notifications.on()
+      appWorker.postMessage(['enableNotifications', gon.user_id])
     else
-      notifications.off()
+      appWorker.postMessage(['disableNotifications'])
     notificationsBtn.toggleClass('is-disabled')
 

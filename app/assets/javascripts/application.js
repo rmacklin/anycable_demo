@@ -12,10 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require action_cable
 //= require materialize-sprockets
-//= require_tree ./shared
-//= require_tree ./channels
+//= require ./shared/app
 //= require_tree ./templates
 //= require ./create-worker
 
@@ -23,6 +21,17 @@ $(document).ready(function() {
   $('select').material_select();
 });
 
-window.after = function(time, fn) {
-  return setTimeout(fn, time);
+// TODO: get rid of sprockets replace this copy with
+// `import createWebSocketURL from '@rails/actioncable'`
+function createWebSocketURL(url) {
+  if (url && !/^wss?:/i.test(url)) {
+    const a = document.createElement("a")
+    a.href = url
+    // Fix populating Location properties in IE. Otherwise, protocol will be blank.
+    a.href = a.href
+    a.protocol = a.protocol.replace("http", "ws")
+    return a.href
+  } else {
+    return url
+  }
 }

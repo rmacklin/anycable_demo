@@ -3,9 +3,9 @@ $ ->
   addBusketBtn = $("#add_product_btn")
   productsList = $("#products_list")
 
-  productsChannel = App.cable.subscriptions.create 'ProductsChannel', ProductsChannel
+  appWorker.postMessage(['createProductsChannel', gon.basket_id])
 
-  productsChannel.handle_message = (type, data) ->
+  window.handleProductsChannelMessage = (type, data) ->
     if type is 'destroy'
       $("#product_#{data.id}").remove()
     else if type is 'create'
