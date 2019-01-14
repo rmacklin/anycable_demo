@@ -3,9 +3,9 @@ $ ->
   addBusketBtn = $("#add_basket_btn")
   basketsList = $("#baskets_list")
 
-  basketsChannel = App.cable.subscriptions.create 'BasketsChannel', BasketsChannel
+  appWorker.postMessage(['createBasketsChannel'])
 
-  basketsChannel.handle_message = (type, data) ->
+  window.handleBasketsChannelMessage = (type, data) ->
     switch type
       when 'destroy' then $("#basket_#{data.id}").remove()
       when 'create' then addBasket(data)

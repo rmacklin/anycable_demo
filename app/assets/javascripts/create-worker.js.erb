@@ -1,9 +1,23 @@
 window.appWorker = new Worker('<%= asset_path('worker.js') %>');
 
 appWorker.onmessage = function(e) {
-  console.log(e.data);
-  console.log('Main (appWorker.onmessage): Message received from worker');
+  switch (e.data[0]) {
+    case 'successMessage':
+      App.utils.successMessage(e.data[1]);
+      break;
+    case 'errorMessage':
+      App.utils.errorMessage(e.data[1]);
+      break;
+    case 'simpleMessage':
+      App.utils.simpleMessage(e.data[1]);
+      break;
+    case 'BasketsChannel.handle_message':
+      handleBasketsChannelMessage(e.data[1], e.data[2]);
+      break;
+    case 'ProductsChannel.handle_message':
+      handleProductsChannelMessage(e.data[1], e.data[2]);
+      break;
+    default:
+      console.log(`Unknown case ${e.data[0]}`);
+  }
 };
-
-// In the console, interact with the worker like:
-// window.appWorker.postMessage([3,4])

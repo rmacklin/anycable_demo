@@ -1,21 +1,21 @@
-class window.Notifications
-  on: ->
+class self.Notifications
+  on: (user_id) ->
     return if @active
 
     @active = true
 
     @notificationChannel = App.cable.subscriptions.create(
-      { channel: 'NotificationChannel', id: gon.user_id },
+      { channel: 'NotificationChannel', id: user_id },
       NotificationChannel
     )
 
     @notificationChannel.handle_message = (type, data) ->
       if type is 'alert'
-        App.utils.errorMessage(data)
+        postMessage(['errorMessage', data])
       else if type is 'success'
-        App.utils.successMessage(data)
+        postMessage(['successMessage', data])
       else
-        App.utils.simpleMessage(data)
+        postMessage(['simpleMessage', data])
   
   off: ->
     return unless @active
