@@ -1,4 +1,6 @@
-window.appWorker = new Worker('<%= asset_path('worker.js') %>');
+window.appWorker = (typeof SharedWorker === 'undefined') ?
+  new Worker('<%= asset_path('worker.js') %>') :
+  new SharedWorker('<%= asset_path('shared-worker.js') %>').port;
 
 appWorker.onmessage = function(e) {
   switch (e.data[0]) {

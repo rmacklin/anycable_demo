@@ -5,7 +5,9 @@
 const App = self.App = {};
 
 let connected = true;
-let notifications;
+let notifications,
+  basketsChannel,
+  productsChannel;
 
 function connect() {
   if (connected) { return; }
@@ -32,13 +34,19 @@ onmessage = function(e) {
       disconnect();
       break;
     case 'createConsumer':
-      App.cable = ActionCable.createConsumer(e.data[1]);
+      if (!App.cable) {
+        App.cable = ActionCable.createConsumer(e.data[1]);
+      }
       break;
     case 'createBasketsChannel':
-      App.cable.subscriptions.create('BasketsChannel', BasketsChannel);
+      if (!basketsChannel) {
+        basketsChannel = App.cable.subscriptions.create('BasketsChannel', BasketsChannel);
+      }
       break;
     case 'createProductsChannel':
-      const productsChannel = App.cable.subscriptions.create('ProductsChannel', ProductsChannel);
+      if (!productsChannel) {
+        productsChannel = App.cable.subscriptions.create('ProductsChannel', ProductsChannel);
+      }
       productsChannel.basket_id = e.data[1];
       break;
     case 'enableNotifications':
